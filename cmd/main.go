@@ -4,15 +4,18 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"unicode/utf8"
 
 	analyzer "github.com/ERRORIK404/CryptoAnalyzer/pkg/application"
 )
 
 func main() {
-	cryptoText := "ваша криптограмма здесь"
-	analyzer := analyzer.NewCryptoAnalyzer(cryptoText)
-
+    fmt.Println("Введите криптограмму")
+    reader := bufio.NewReader(os.Stdin)
+    cryptoText, _ := reader.ReadString('\n')
+    analyzer := analyzer.NewCryptoAnalyzer(cryptoText)
 	scanner := bufio.NewScanner(os.Stdin)
+	
 	for {
 		fmt.Println("\nТекущий текст:", analyzer.DecryptedText)
 		fmt.Println("1. Анализ частот")
@@ -51,14 +54,16 @@ func main() {
 			for unknown, words := range groups {
 				fmt.Printf("%d неизвестных: %v\n", unknown, words)
 			}
-		case "4":
-			fmt.Print("Введите букву для замены: ")
-			scanner.Scan()
-			oldChar := rune(scanner.Text()[0])
-			fmt.Print("Введите новую букву: ")
-			scanner.Scan()
-			newChar := rune(scanner.Text()[0])
-			analyzer.Replace(oldChar, newChar)
+        case "4":
+            fmt.Print("Введите букву для замены: ")
+            oldChar, _ := reader.ReadString('\n')
+            oldRune, _ := utf8.DecodeRuneInString(oldChar)
+            
+            fmt.Print("Введите новую букву: ")
+            newChar, _ := reader.ReadString('\n')
+            newRune, _ := utf8.DecodeRuneInString(newChar)
+            
+            analyzer.Replace(oldRune, newRune)
 		case "5":
 			analyzer.Undo()
 			fmt.Println("Последняя замена отменена.")
@@ -73,3 +78,4 @@ func main() {
 		}
 	}
 }
+// КЩРНСИШЩХДТ РБУТЦИФЮСНЫ ШЙ ЬЙЛБ НСЙСТНСТОБНДЩМЩ ЙШЙЖТЛИ СБДНСИ ШЩ СЩЖЕДЩ БНЖТ ЩШ РЩНСЙСЩОШЩ РЖТШШИГ
