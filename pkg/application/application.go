@@ -120,19 +120,15 @@ func (ca *CryptoAnalyzer) AutoReplace() {
 	}
 }
 
-func sortByFrequency(freq map[rune]int) []struct {
-	Key   rune
+type SorterFreq struct {
+	Key rune
 	Value int
-} {
-	var sorted []struct {
-		Key   rune
-		Value int
-	}
+}
+
+func sortByFrequency(freq map[rune]int) []SorterFreq{
+	var sorted []SorterFreq
 	for k, v := range freq {
-		sorted = append(sorted, struct {
-			Key   rune
-			Value int
-		}{k, v})
+		sorted = append(sorted, SorterFreq{k, v})
 	}
 	sort.Slice(sorted, func(i, j int) bool {
 		return sorted[i].Value > sorted[j].Value
@@ -140,22 +136,19 @@ func sortByFrequency(freq map[rune]int) []struct {
 	return sorted
 }
 
-func sortRussianFreq() []struct {
-	Key   rune
+type SorterRus struct {
+	Key rune
 	Value float64
-} {
-	var sorted []struct {
-		Key   rune
-		Value float64
-	}
+}
+
+func sortRussianFreq() []SorterRus{
+	var sorted []SorterRus
 	for k, v := range russianFreq {
-		sorted = append(sorted, struct {
-			Key   rune
-			Value float64
-		}{k, v})
+		sorted = append(sorted, SorterRus{k, v})
 	}
 	sort.Slice(sorted, func(i, j int) bool {
 		return sorted[i].Value > sorted[j].Value
 	})
 	return sorted
 }
+
